@@ -1,0 +1,48 @@
+// Fire Extinguisher Drone - Arduino Uno Code
+
+
+
+const int flameSensorPin = 2;   
+const int relayPin = 8;         
+
+const int ledPin = 13;          
+
+void setup() {
+  // Set pin modes
+  pinMode(flameSensorPin, INPUT);  
+  pinMode(relayPin, OUTPUT);        
+  pinMode(ledPin, OUTPUT);          
+
+
+  digitalWrite(relayPin, HIGH);    
+
+
+  Serial.begin(9600);
+  Serial.println("🔥 Fire Extinguisher Drone System Initialized");
+}
+
+void loop() {
+  int flameState = digitalRead(flameSensorPin);
+
+
+  if (flameState == LOW) {
+    // 🔥 Fire detected!
+    Serial.println("⚠️ FIRE DETECTED! Activating Water Pump...");
+    
+    digitalWrite(relayPin, LOW);   
+    digitalWrite(ledPin, HIGH);    
+
+    delay(5000); 
+    
+    digitalWrite(relayPin, HIGH); 
+    digitalWrite(ledPin, LOW);     
+    Serial.println("✅ Fire extinguishing complete.");
+  } else {
+    // No fire detected
+    Serial.println("✅ No fire detected. System is normal.");
+    digitalWrite(relayPin, HIGH);  
+    digitalWrite(ledPin, LOW);
+  }
+
+  delay(1000); 
+}
